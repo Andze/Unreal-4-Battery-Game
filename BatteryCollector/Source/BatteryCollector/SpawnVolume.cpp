@@ -3,6 +3,7 @@
 #include "BatteryCollector.h"
 #include "SpawnVolume.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Pickup.h"
 
 
 // Sets default values
@@ -33,8 +34,34 @@ void ASpawnVolume::Tick( float DeltaTime )
 
 FVector ASpawnVolume::GetRandomPointInVolume()
 {
-	FVector SpawnOrigion = WhereToSpawn->Bounds.Origin;
+	FVector SpawnOrigin = WhereToSpawn->Bounds.Origin;
 	FVector SpawnExtent = WhereToSpawn->Bounds.BoxExtent;
 
-	return UKismetMathLibrary::RandomPointInBoundingBox(SpawnOrigion, SpawnExtent);
+	return UKismetMathLibrary::RandomPointInBoundingBox(SpawnOrigin, SpawnExtent);
+}
+
+void ASpawnVolume::SpawnPickup()
+{
+	if (WhatToSpawn != NULL)
+	{
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = Instigator;
+
+			//Get Random location
+			FVector SpawnLocation = GetRandomPointInVolume();
+
+			//Random rotation
+			FRotator SpawnRotation;
+			SpawnRotation.Yaw = FMath::FRand() * 360.0f;
+			SpawnRotation.Pitch = FMath::FRand() * 360.0f;
+			SpawnRotation.Roll = FMath::FRand() * 360.0f;
+
+			APickup* const SpawnedPickup = World->SpawnActor<APickup>(WhatToSpawn, SpawnLocation, SpawnRotation, SpawnParams);
+		}
+	}
+
 }
