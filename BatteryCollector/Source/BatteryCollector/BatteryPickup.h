@@ -17,5 +17,7 @@ public:
 	//Set default values for the actors properties
 	ABatteryPickup();
 	
+	//Overide was collected function
+	void WasCollected_Implementation() override;
 	
 };
