@@ -50,6 +50,10 @@ ABatteryCollectorCharacter::ABatteryCollectorCharacter()
 	InitialPower = 2000.f;
 	CharacterPower = InitialPower;
 
+	//speed levels
+	SpeedFactor = 0.75f;
+	BaseSpeed = 10.0f;
+
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -198,7 +202,12 @@ float ABatteryCollectorCharacter::GetCurrentPower()
 	return CharacterPower;
 }
 
+//called when power is changed
 void ABatteryCollectorCharacter::UpdatePower(float PowerChange)
 {
 	CharacterPower = CharacterPower + PowerChange;
+	// change speed based on power
+	GetCharacterMovement()->MaxWalkSpeed = BaseSpeed = SpeedFactor * CharacterPower;
+	//call visual effect
+	PowerChangeEffect();
 }

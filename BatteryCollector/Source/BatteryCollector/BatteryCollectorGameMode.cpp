@@ -15,7 +15,7 @@ ABatteryCollectorGameMode::ABatteryCollectorGameMode()
 	}
 
 	//base decay rate
-	DecayRate = 0.01f;
+	DecayRate = 0.1f;
 }
 
 void ABatteryCollectorGameMode::Tick(float DeltaTime)
