@@ -19,5 +19,13 @@ public:
 	
 	//Overide was collected function
 	void WasCollected_Implementation() override;
+
+	//Public way to access the battery power level
+	float GetPower();
+
+protected:
+	//Set the amount of power the battery gives
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Power", Meta = (BlueprintProtected = "true"))
+	float BatteryPower;
 	
 };
