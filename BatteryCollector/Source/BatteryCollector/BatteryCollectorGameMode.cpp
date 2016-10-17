@@ -32,7 +32,7 @@ void ABatteryCollectorGameMode::BeginPlay()
 
 	if (HUDWidgetClass != nullptr)
 	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld), HUDWidgetClass);
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidgetClass);
 		if (CurrentWidget != nullptr)
 		{
 			CurrentWidget->AddToViewport();
@@ -57,4 +57,9 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 		}
 		
 	}
+}
+
+float ABatteryCollectorGameMode::GetPowerToWin() const
+{
+	return PowerToWin;
 }
