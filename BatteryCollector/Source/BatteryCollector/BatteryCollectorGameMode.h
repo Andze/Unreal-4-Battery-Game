@@ -3,6 +3,15 @@
 #include "GameFramework/GameMode.h"
 #include "BatteryCollectorGameMode.generated.h"
 
+UENUM(BlueprintType)
+enum class EBatteryPlayState
+{
+	EPlaying,
+	EGameOver,
+	EWon,
+	EUnknown
+};
+
 UCLASS(minimalapi)
 class ABatteryCollectorGameMode : public AGameMode
 {
@@ -18,6 +27,13 @@ public:
 	float GetPowerToWin() const;
 
 	virtual void BeginPlay() override;
+
+	//Returns current playing state
+	UFUNCTION(BlueprintPure, Category = "power")
+	EBatteryPlayState GetCurrentState() const;
+
+	
+	void SetCurrentState(EBatteryPlayState NewState);
 
 protected:
 	//Decay Rate of character
@@ -35,6 +51,10 @@ protected:
 	//the instance of the HUD
 	UPROPERTY()
 	class UUserWidget* CurrentWidget;
+
+
+private:
+	EBatteryPlayState CurrentState;
 };
 
 
