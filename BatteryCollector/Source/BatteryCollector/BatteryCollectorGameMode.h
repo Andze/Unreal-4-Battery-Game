@@ -55,6 +55,9 @@ protected:
 
 private:
 	EBatteryPlayState CurrentState;
+
+	TArray<class ASpawnVolume*> SpawnVolumeActors;
+
 };
 
 
