@@ -58,6 +58,9 @@ private:
 
 	TArray<class ASpawnVolume*> SpawnVolumeActors;
 
+	//handle an function calls that rely on play state
+	void HandleNewState(EBatteryPlayState NewState);
+
 };
 
 
