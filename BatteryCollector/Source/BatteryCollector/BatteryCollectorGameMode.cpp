@@ -88,12 +88,17 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 
 		
 	}
-	FString NewString = FString::FromInt(MyCharacter->GetCurrentPower());
-	LOG(MyGameModeLog, NewString);
+	//Log Player Current Power
+	FString CurrentPower = FString::FromInt(MyCharacter->GetCurrentPower());
+	LOG(MyGameModeLog, CurrentPower);
 
 	//Log Player Position	
-	//FString NewString = FString::FromInt(PowerToWin);
-	//LOG(MyGameModeLog, NewString);
+	FString PlayerPos = (MyCharacter->GetActorLocation()).ToString();
+	LOG(MyGameModeLog, PlayerPos);
+
+	//Log Player Forward Vector	
+	FString PlayerDirection = (MyCharacter->GetActorForwardVector()).ToString();
+	LOG(MyGameModeLog, PlayerDirection);
 }
 
 float ABatteryCollectorGameMode::GetPowerToWin() const
