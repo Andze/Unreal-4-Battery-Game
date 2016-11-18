@@ -6,6 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "SpawnVolume.h"
+#include "Global_Log.h"
+
+DEFINE_LOG_CATEGORY_STATIC(MyGameModeLog, All, All)
 
 ABatteryCollectorGameMode::ABatteryCollectorGameMode()
 {
@@ -23,6 +26,7 @@ ABatteryCollectorGameMode::ABatteryCollectorGameMode()
 void ABatteryCollectorGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	LOG( MyGameModeLog, "Begin Play" );
 
 	//find all spawn volume actors
 	TArray<AActor*> FoundActors;
@@ -44,6 +48,7 @@ void ABatteryCollectorGameMode::BeginPlay()
 	if (MyCharacter)
 	{
 		PowerToWin = (MyCharacter->GetInitialPower())*1.25f;
+	
 	}
 
 	if (HUDWidgetClass != nullptr)
@@ -60,6 +65,8 @@ void ABatteryCollectorGameMode::BeginPlay()
 void ABatteryCollectorGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+
 
 	ABatteryCollectorCharacter* MyCharacter = Cast<ABatteryCollectorCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
 	if (MyCharacter)
@@ -81,6 +88,12 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 
 		
 	}
+	FString NewString = FString::FromInt(MyCharacter->GetCurrentPower());
+	LOG(MyGameModeLog, NewString);
+
+	//Log Player Position	
+	//FString NewString = FString::FromInt(PowerToWin);
+	//LOG(MyGameModeLog, NewString);
 }
 
 float ABatteryCollectorGameMode::GetPowerToWin() const

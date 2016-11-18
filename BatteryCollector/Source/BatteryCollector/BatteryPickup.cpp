@@ -3,7 +3,6 @@
 #include "BatteryCollector.h"
 #include "BatteryPickup.h"
 
-
 //Set default Values
 ABatteryPickup::ABatteryPickup()
 {
