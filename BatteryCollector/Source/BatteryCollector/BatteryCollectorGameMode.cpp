@@ -26,7 +26,7 @@ ABatteryCollectorGameMode::ABatteryCollectorGameMode()
 void ABatteryCollectorGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	LOG( MyGameModeLog, "Begin Play" );
+	LOG( MyGameModeLog, "Game Start" );
 
 	//find all spawn volume actors
 	TArray<AActor*> FoundActors;
@@ -66,8 +66,6 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-
 	ABatteryCollectorCharacter* MyCharacter = Cast<ABatteryCollectorCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
 	if (MyCharacter)
 	{
@@ -93,12 +91,12 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 	LOG(MyGameModeLog, CurrentPower);
 
 	//Log Player Position	
-	FString PlayerPos = (MyCharacter->GetActorLocation()).ToString();
-	LOG(MyGameModeLog, PlayerPos);
+	//FString PlayerPos = (MyCharacter->GetActorLocation()).ToString();
+	LOG(MyGameModeLog, *MyCharacter->GetActorLocation().ToString());
 
 	//Log Player Forward Vector	
-	FString PlayerDirection = (MyCharacter->GetActorForwardVector()).ToString();
-	LOG(MyGameModeLog, PlayerDirection);
+	//FString PlayerDirection = (MyCharacter->GetActorForwardVector()).ToString();
+	LOG(MyGameModeLog, *MyCharacter->GetActorForwardVector().ToString());
 }
 
 float ABatteryCollectorGameMode::GetPowerToWin() const
@@ -136,6 +134,9 @@ void ABatteryCollectorGameMode::HandleNewState(EBatteryPlayState NewState)
 			//if game is over
 		case EBatteryPlayState::EGameOver:
 		{
+			//End log so that sessions are seperated easier
+			LOG(MyGameModeLog, "Game Lost");
+
 			//spawn volumes inactive 
 			for (ASpawnVolume* Volume : SpawnVolumeActors)
 			{
@@ -159,6 +160,7 @@ void ABatteryCollectorGameMode::HandleNewState(EBatteryPlayState NewState)
 		//if game is won
 		case EBatteryPlayState::EWon:
 		{
+			LOG(MyGameModeLog, "Game Won");
 			//spawn volumes inactive
 			for (ASpawnVolume* Volume : SpawnVolumeActors)
 			{
