@@ -27,6 +27,9 @@ void ABatteryCollectorGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	LOG( MyGameModeLog, "Game Start" );
+	//Set time for logs
+
+	DateTime = FDateTime::Now().ToString();
 
 	//find all spawn volume actors
 	TArray<AActor*> FoundActors;
@@ -62,6 +65,37 @@ void ABatteryCollectorGameMode::BeginPlay()
 
 }
 
+void ABatteryCollectorGameMode::LogStringToFile(FString data, FString filename)
+{
+	FString dir = FPaths::GameDir() + "Logs/";
+	CreateDirectory(dir);
+
+	FString AbsoluteFilePath = dir + "/" + (filename + DateTime + ".txt");
+	//Save data to file
+
+	FFileHelper::SaveStringToFile(data, *AbsoluteFilePath, FFileHelper::EEncodingOptions::ForceUTF8,
+		&IFileManager::Get(), FILEWRITE_Append);
+
+}
+
+bool ABatteryCollectorGameMode::CreateDirectory(const FString& TestDir)
+{
+	IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+
+	// Directory Exists?
+	if (!PlatformFile.DirectoryExists(*TestDir))
+	{
+		PlatformFile.CreateDirectory(*TestDir);
+
+		if (!PlatformFile.DirectoryExists(*TestDir))
+		{
+			return false;
+			//~~~~~~~~~~~~~~
+		}
+	}
+	return true;
+}
+
 void ABatteryCollectorGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -83,9 +117,14 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 		{
 			SetCurrentState(EBatteryPlayState::EGameOver);
 		}
-
 		
 	}
+	//Every Tick append data to a string
+
+	//Add player positon log string
+	LogStringToFile("position:" + MyCharacter->GetActorLocation().ToString() + ";", "Position");
+
+
 	//Log Player Current Power
 	FString CurrentPower = FString::FromInt(MyCharacter->GetCurrentPower());
 	LOG(MyGameModeLog, CurrentPower);

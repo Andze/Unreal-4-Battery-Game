@@ -35,7 +35,14 @@ public:
 	
 	void SetCurrentState(EBatteryPlayState NewState);
 
+	void LogStringToFile(FString data, FString filename);
+
+	bool CreateDirectory(const FString& TestDir);
+
 protected:
+
+	FString DateTime;
+
 	//Decay Rate of character
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Power", Meta = (BlueprintProtected = "true"))
 	float DecayRate;
