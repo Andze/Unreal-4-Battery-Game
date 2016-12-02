@@ -67,10 +67,10 @@ void ABatteryCollectorGameMode::BeginPlay()
 
 void ABatteryCollectorGameMode::LogStringToFile(FString data, FString filename)
 {
-	FString dir = FPaths::GameDir() + "Logs/";
+	FString dir = FPaths::GameDir() + "Logs/" + "Gameplay-" + DateTime + "/";
 	CreateDirectory(dir);
 
-	FString AbsoluteFilePath = dir + "/" + (filename + DateTime + ".txt");
+	FString AbsoluteFilePath = dir + "/" + (filename + " - " + DateTime + ".txt");
 	//Save data to file
 
 	FFileHelper::SaveStringToFile(data, *AbsoluteFilePath, FFileHelper::EEncodingOptions::ForceUTF8,
@@ -122,7 +122,7 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 	//Every Tick append data to a string
 
 	//Add player positon log string
-	LogStringToFile("position:" + MyCharacter->GetActorLocation().ToString() + ";", "Position");
+	LogStringToFile("position:" + MyCharacter->GetActorLocation().ToString() + ";" "\n", "Player Position");
 
 
 	//Log Player Current Power
