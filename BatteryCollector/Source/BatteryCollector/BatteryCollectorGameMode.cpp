@@ -122,14 +122,14 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 	//Every Tick append data to a string
 
 	//Add player positon log string
-	LogStringToFile("Position:" + MyCharacter->GetActorLocation().ToString() + ";" "\n", "Player Position");
+	LogStringToFile(MyCharacter->GetActorLocation().ToString() + ";" "\n", "Player Position");
 
 	//Log Player Current Power
 	FString CurrentPower = FString::FromInt(MyCharacter->GetCurrentPower());
-	LogStringToFile("Power:" + CurrentPower + ";" "\n", "Player Power");
+	LogStringToFile(CurrentPower + ";" "\n", "Player Power");
 
 	//Add player positon log string
-	LogStringToFile("Forward Vector:" + MyCharacter->GetActorForwardVector().ToString() + ";" "\n", "Player Forward");
+	LogStringToFile(MyCharacter->GetActorForwardVector().ToString() + ";" "\n", "Player Forward");
 
 	
 	LOG(MyGameModeLog, CurrentPower);
