@@ -73,7 +73,7 @@ void ABatteryCollectorGameMode::LogStringToFile(FString data, FString filename)
 	FString AbsoluteFilePath = dir + "/" + (filename + " - " + DateTime + ".txt");
 	//Save data to file
 
-	FFileHelper::SaveStringToFile(data, *AbsoluteFilePath, FFileHelper::EEncodingOptions::ForceUTF8,
+	FFileHelper::SaveStringToFile(data, *AbsoluteFilePath, FFileHelper::EEncodingOptions::AutoDetect,
 		&IFileManager::Get(), FILEWRITE_Append);
 
 }
