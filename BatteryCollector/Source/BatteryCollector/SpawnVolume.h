@@ -33,11 +33,15 @@ public:
 
 	void LogStringToFile(FString data, FString filename);
 
+	bool CreateDirectory(const FString& TestDir);
+
 
 protected:
 	//The pickup to spawn
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class APickup> WhatToSpawn;
+
+	FString DateTime;
 
 	//Timer 
 	FTimerHandle SpawnTimer;

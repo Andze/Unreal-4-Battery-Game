@@ -4,20 +4,9 @@
 #include "SpawnVolume.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Pickup.h"
-#include "SpawnVolume.h"
-#include "Global_Log.h"
-#include "BatteryCollectorGameMode.h"
-#include "BatteryCollector.h"
-#include "BatteryCollectorGameMode.h"
-#include "BatteryCollectorCharacter.h"
-#include "Kismet/GameplayStatics.h"
-#include "Blueprint/UserWidget.h"
-#include "SpawnVolume.h"
-#include "Global_Log.h"
+
 
 #include "BatteryCollectorGameMode.h"
-
-DEFINE_LOG_CATEGORY_STATIC(MyGameModeLog, All, All)
 
 // Sets default values
 ASpawnVolume::ASpawnVolume()
@@ -72,6 +61,37 @@ void ASpawnVolume::SetSpawningActive(bool bShouldSpawn)
 }
 
 
+void ASpawnVolume::LogStringToFile(FString data, FString filename)
+{
+	FString dir = FPaths::GameDir() + "Logs/" + "Gameplay-" + DateTime + "/";
+	CreateDirectory(dir);
+
+	FString AbsoluteFilePath = dir + "/" + (filename + " - " + DateTime + ".txt");
+	//Save data to file
+
+	FFileHelper::SaveStringToFile(data, *AbsoluteFilePath, FFileHelper::EEncodingOptions::AutoDetect,
+		&IFileManager::Get(), FILEWRITE_Append);
+
+}
+
+bool ASpawnVolume::CreateDirectory(const FString& TestDir)
+{
+	IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+
+	// Directory Exists?
+	if (!PlatformFile.DirectoryExists(*TestDir))
+	{
+		PlatformFile.CreateDirectory(*TestDir);
+
+		if (!PlatformFile.DirectoryExists(*TestDir))
+		{
+			return false;
+			//~~~~~~~~~~~~~~
+		}
+	}
+	return true;
+}
+
 void ASpawnVolume::SpawnPickup()
 {
 	if (WhatToSpawn != NULL)
@@ -89,7 +109,7 @@ void ASpawnVolume::SpawnPickup()
 			FVector SpawnLocation = GetRandomPointInVolume();
 
 			//LOG THIS SHIT
-			//LogStringToFile(SpawnLocation.ToString() + ";" "\n", "Battery Position");
+			LogStringToFile(SpawnLocation.ToString() + ";" "\n", "Battery Position");
 
 			//Random rotation
 			FRotator SpawnRotation;
