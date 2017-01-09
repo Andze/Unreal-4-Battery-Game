@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	void SetSpawningActive(bool bShouldSpawn);
 
+	void LogStringToFile(FString data, FString filename);
+
+
 protected:
 	//The pickup to spawn
 	UPROPERTY(EditAnywhere, Category = "Spawning")

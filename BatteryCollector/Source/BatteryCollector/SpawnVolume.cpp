@@ -4,7 +4,20 @@
 #include "SpawnVolume.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Pickup.h"
+#include "SpawnVolume.h"
+#include "Global_Log.h"
+#include "BatteryCollectorGameMode.h"
+#include "BatteryCollector.h"
+#include "BatteryCollectorGameMode.h"
+#include "BatteryCollectorCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
+#include "SpawnVolume.h"
+#include "Global_Log.h"
 
+#include "BatteryCollectorGameMode.h"
+
+DEFINE_LOG_CATEGORY_STATIC(MyGameModeLog, All, All)
 
 // Sets default values
 ASpawnVolume::ASpawnVolume()
@@ -26,13 +39,13 @@ ASpawnVolume::ASpawnVolume()
 void ASpawnVolume::BeginPlay()
 {
 	Super::BeginPlay();	
+	DateTime = FDateTime::Now().ToString();
 }
 
 // Called every frame
 void ASpawnVolume::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 FVector ASpawnVolume::GetRandomPointInVolume()
@@ -58,6 +71,7 @@ void ASpawnVolume::SetSpawningActive(bool bShouldSpawn)
 	}
 }
 
+
 void ASpawnVolume::SpawnPickup()
 {
 	if (WhatToSpawn != NULL)
@@ -69,8 +83,13 @@ void ASpawnVolume::SpawnPickup()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = Instigator;
 
+
+
 			//Get Random location
 			FVector SpawnLocation = GetRandomPointInVolume();
+
+			//LOG THIS SHIT
+			//LogStringToFile(SpawnLocation.ToString() + ";" "\n", "Battery Position");
 
 			//Random rotation
 			FRotator SpawnRotation;
